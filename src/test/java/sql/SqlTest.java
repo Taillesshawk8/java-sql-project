@@ -35,7 +35,7 @@ public class SqlTest {
             rsCount = rsCount + 1;
         }
         Assertions.assertEquals(2,rsCount);
-        System.out.println("Number of account for Mikasa: "+rsCount);
+        System.out.println("Number of accounts for Mikasa: "+rsCount);
     }
 
     @Test
