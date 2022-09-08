@@ -27,7 +27,8 @@ public class SqlTest {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlproject", "root", "Gl@d0s");
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(
-                "SELECT * FROM account\n" +
+                "SELECT * " +
+                "FROM account\n" +
                 "where CustomerID=1;");
         int rsCount = 0;
         while(resultSet.next()) {
@@ -37,11 +38,18 @@ public class SqlTest {
         System.out.println("Number of account for Mikasa: "+rsCount);
     }
 
-    // A test that checks that the total of all transactions is equal to 0 for a given account.
-    // Doing this for a single account is enough,
-    // and you’re allowed to use the account ID for that account in the query
     @Test
-    public void retrieveTransactionsForAccount_checkTotalBalance_shouldBeZero() {
-
+    public void retrieveTransactionsForAccount_checkTotalBalance_shouldBeZero() throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlproject", "root", "Gl@d0s");
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(
+                "select sum(TransactionAmount) " +
+                "as TotalTransactionBalance " +
+                "from transactions\n" +
+                "where AccountNo=123456;");
+        while (resultSet.next()) {
+            Assertions.assertEquals(3000,resultSet.getInt("TotalTransactionBalance"));
+            System.out.println("Total balance of Mikasa's Checking Account from transactions: "+resultSet.getString("TotalTransactionBalance"));
+        }
     }
 }
